@@ -1,18 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<title>Page Title</title>
- <link rel="stylesheet" type="text/css" href="CSS/design.css">
+<title id="dong">Dolba</title>
+    <link rel="stylesheet" href="css/css.css">
 </head>
-<body id="body">
+<body>
+    <h1>Dolf site</h1>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
-<script>
-
-
-
-
-</script>
+    
+    
 </body>
+    
+    
+    
+    <script>
+var title = document.getElementById("dong");
+var num = 0;
+var timing = setInterval(bolba, 1000);
+function bolba() {
+        if(num == 0){
+            title.innerHTML = "D";
+            num = 1;
+        }
+            else if(num == 1){
+            title.innerHTML = "Do";
+            num = 2;
+        }
+            else if(num == 2){
+            title.innerHTML = "Dol";
+            num = 3;
+        }
+            else if(num == 3){
+            title.innerHTML = "Dolb";
+            num = 4;
+        }
+            else if(num == 4){
+            title.innerHTML = "Dolba";
+            num = 0;
+        }
+    }
+    
+    
+    
+    </script>
 </html>
+
