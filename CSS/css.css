@@ -4,7 +4,18 @@ background-image: url("https://i.kym-cdn.com/photos/images/newsfeed/001/499/826/
 background-repeat: no-repeat, repeat;
 background-size: cover;
     color: antiquewhite;
+    background-color: blue;
 }
 h1{
     font-size: 800%;
+}
+nav{
+    background-color: blue;
+    text-align: left;
+}
+input{
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 50px;
+background-color: forestgreen;
 }
