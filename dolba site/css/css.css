@@ -1,26 +1,39 @@
+/* De @font-face is van W3schools en de ronde hoeken ook */
+@font-face {
+    font-family: cola;
+    src: url(../cola.ttf);
+}
 html, body{
     height: 100%;
     margin: 0%;
+        
+}
+.enjoy{
+    font-family: cola;
+    margin: 0;
 }
 body{
-text-align: center;
-/*background-image: url("https://i.kym-cdn.com/photos/images/newsfeed/001/499/826/2f0.png");
-background-repeat: no-repeat, repeat;
-background-size: cover;*/
+    text-align: center;
     color: antiquewhite;
     background-color: black;
 }
 
-#nav{
+.nav{
     background-color: #fed20e;
     width: 100%;
-    height: 7%;
-    /*background-image: url("https://vignette.wikia.nocookie.net/seedia/images/3/37/Insellandi.png/revision/latest?cb=20171106040934");
-    background-size:contain;*/
+    height: 50px;
+    text-align: left;
+}
+.nav2{
+    background-color: #fed20e;
+    width: 100%;
+    height: 150px;
+    text-align: left;
 }
 #container{
     display: flex;
     height: 100%;
+
 }
 #blok1{
     -webkit-border-radius: 50px;
@@ -95,21 +108,104 @@ p{
 }
 h2{
     margin-top: 0px;
+
 }
 img{
-    border-radius: 50px;
+    border-radius: 10px;
 }
 .foto{
-background-image: url("../capitalism.png");
-background-size:cover;
-background-position: bottom;
-width: 100%;
-height: 72%;
-margin-bottom: 3%;
-margin-top: 1%;
+    background-image: url("../capitalism.png");
+    background-size:cover;
+    background-position: center;
+    width: 100%;
+    height: 65%;
+    margin-bottom: 3%;
+    margin-top: 2%;
 }
+
 #header{
     text-shadow: -2px 0 #fed20e, 0 2px #fed20e, 2px 0 #fed20e, 0 -2px #fed20e;
     color: black;
     margin: 0%;
+}
+.foto2{
+    background-image: url("../capitalism.png");
+    background-size:cover;
+    background-position: center;
+    width: 100%;
+    height: 25%;
+    margin-bottom: 3%;
+    margin-top: 2%;
+}
+.foto3{
+    background-image: url("../capitalism.png");
+    background-size:cover;
+    background-position: center;
+    width: 100%;
+    height: 40%;
+    margin-bottom: 3%;
+    margin-top: 2%;
+}
+.optie{
+    border: solid 1px #fed20e;
+    font-size: 16px;
+    color: #fed20e;
+    -webkit-appearance: none;
+    height: 50px;
+    width: 155px;
+    background-color: black;
+}
+.optie:hover{
+    border: solid 2px #fed20e;
+    font-size: 16px;
+    color: #e2d000;
+    -webkit-appearance: none;
+    height: 50px;
+    width: 155px;
+    background-color: #5e5e5e;
+}
+.optie2{
+    border: solid 1px #fed20e;
+    font-size: 16px;
+    color: #fed20e;
+    -webkit-appearance: none;
+    height: 50px;
+    width: 100%;
+    background-color: black;
+}
+.optie2:hover{
+    border: solid 2px #fed20e;
+    font-size: 16px;
+    color: #e2d000;
+    -webkit-appearance: none;
+    height: 50px;
+    width: 100%;
+    background-color: #5e5e5e;
+}
+.blok{
+    color: black;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    background-color: #fed20e;
+    width: 98%;
+    height: 100%;
+    margin: 1%;
+    border: solid 3px;
+}
+.footer{
+    color: #fed20e;
+    background-color: #292929;
+    width: 100%;
+    height: 200px;
+}
+.footer.a{
+    color: #fed20e;
+}
+a:-webkit-any-link {
+    color: #fed20e;
+    cursor: pointer;
+}
+img{
+    width: 90%;
 }

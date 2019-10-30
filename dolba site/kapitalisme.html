@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<title>Capitalism</title>
+    <link rel="stylesheet" href="css/css.css">
+</head>
+<body id="body">
+    <div class="nav" id="nav">
+        <a href="index.html"><input type="button" id="kapitalisme" class="optie" value="Home"></a>
+        <a href="socialisme.html"><input type="button" id="socialisme" class="optie" value="socialisme"></a>
+        <a href="anarcho.html"><input type="button" id="anarcho" class="optie" value="Anarchokapitalisme"></a>
+    </div>
+    <div id="foto" class="foto"></div>
+    
+    
+    
+        <div class="blok">
+            <h1 class="enjoy">EnJoy Capitalism.</h1>
+            <p>Kapitalisme is geweldig omdat je met het kapitalistische systeem de meeste economische groei creëert. Kapitalisme is ook het meest morele systeem omdat je alles mag houden wat je verdient en ook zelf mag kiezen waar het naartoe gaat in plaats van een bureaucraat die dat beslist. Het kapitalistische systeem is ook ongeloflijk efficient omdat inefficientie word afgestraft doormiddel van falliesementen. Het klimaat word ook het beste behouden onder kapitalisme want als een fabriek dumpt op iemand anders zijn prive terrein is de fabriek aanspakelijk en word waarschijnlijk kapot aangeklaagd en word dus gedwongen om het verantwoordelijk af te voeren maar als de overheid de productiemiddelen in handen heeft moet je de staat aanklagen wat je nooit wint, de staat zou dus zonder consequenties kunnen dumpen.</p>
+
+        </div>
+    
+        <br><br>
+    <div class="footer">
+    <h1 class="enjoy">EnJoy Capitalism.</h1>
+        <p>gemaakt door Dolf Bosch</p>
+    <a href="colofon.html"><p>Colofon</p></a>
+    </div>
+        
+
+    <script>
+
+var getal = 4;
+var titel = document.getElementById("dolba");
+var header = document.getElementById("header");
+var foto = document.getElementById("foto");
+var nav = document.getElementById("nav");
+var kapitalisme = document.getElementById("kapitalisme"); 
+var socialisme = document.getElementById("socialisme");
+var anarcho = document.getElementById("anarcho");
+
+    //test om de achtergrondfoto mooi op elke schermbreete te krijgen.
+    if(foto.offsetWidth < 550){
+        foto.className = "foto2";
+        nav.className = "nav2";
+        kapitalisme.className = "optie2";
+        socialisme.className = "optie2";
+        anarcho.className = "optie2";
+    }
+    
+    else if(foto.offsetWidth < 800){
+       foto.className = "foto3";
+    }
+    else{
+        foto.className = "foto";
+    }
+
+    
+
+    
+    
+    
+</script>
+</body>
+</html>

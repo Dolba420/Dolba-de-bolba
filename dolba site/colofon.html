@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<title>Capitalism</title>
+    <link rel="stylesheet" href="css/css.css">
+</head>
+<body id="body">
+    <div class="nav" id="nav">
+        <a href="index.html"><input type="button" id="kapitalisme" class="optie" value="Home"></a>
+        <a href="kapitalisme.html"><input type="button" id="socialisme" class="optie" value="Kapitalisme"></a>
+        <a href="socialisme.html"><input type="button" id="anarcho" class="optie" value="socialisme"></a>
+    </div>
+    <div id="foto" class="foto"></div>
+    
+    
+    
+        <div class="blok">
+            <h1 class="enjoy">EnJoy Capitalism.</h1>
+
+            <p>Deze site is gemaakt door Dolf Bosch.</p>
+            <p>Het lettertype en de mooie ronde hoeken zijn mede mogelijk gemaakt door de code van W3 schools.</p>
+        </div>
+    
+        <br><br>
+    <div class="footer">
+    <h1 class="enjoy">EnJoy Capitalism.</h1>
+        <p>gemaakt door Dolf Bosch</p>
+    <a href="colofon.html"><p>Colofon</p></a>
+    </div>   
+        
+
+<script>
+
+var getal = 4;
+var titel = document.getElementById("dolba");
+var header = document.getElementById("header");
+var foto = document.getElementById("foto");
+var nav = document.getElementById("nav");
+var kapitalisme = document.getElementById("kapitalisme"); 
+var socialisme = document.getElementById("socialisme");
+var anarcho = document.getElementById("anarcho");
+
+    //test om de achtergrondfoto mooi op elke schermbreete te krijgen.
+    if(foto.offsetWidth < 550){
+        foto.className = "foto2";
+        nav.className = "nav2";
+        kapitalisme.className = "optie2";
+        socialisme.className = "optie2";
+        anarcho.className = "optie2";
+    }
+    
+    else if(foto.offsetWidth < 800){
+       foto.className = "foto3";
+    }
+    else{
+        foto.className = "foto";
+    }
+
+    
+
+    
+    
+    
+</script>
+</body>
+</html>
