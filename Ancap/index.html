@@ -25,9 +25,9 @@
 		<div class="product">
 			<img src="http://www.transparentpng.com/thumb/water-drop/iiB5V1-water-drop-clipart-hd.png">
 			<div class="stockpile">
-				<input type="button" value="-">
+				<input type="button" value="-" onclick="select1=2; verkoop();">
 				<p>0</p>
-				<input type="button" value="+">
+				<input type="button" value="+" onclick="select1=2; verkoop();">
 			</div>
 			<canvas id="water" height="60" width="120"></canvas>
 		</div>
@@ -108,10 +108,14 @@ var geldElement = document.getElementById("geld");
 var schuldElement = document.getElementById("schuld");
 var stroomElement = document.getElementById("stroomstock");
 var stroomstock = 0;
+    
+    
+    
 draw();
-function draw(){ 
+    
 
-for (i = 0; i < stroomges.length; i++){
+function loop(){
+    for (i = 0; i < stroomges.length; i++){
   if(stroomges[i] < stroommin){
         stroommin = stroomges[i] -3;
         console.log("stroom min =" + stroommin);
@@ -171,7 +175,9 @@ for (i = 0; i < soldaatges.length; i++){
         console.log("soldaat max =" + soldaatmax)
     }
 }   
-    
+}
+function draw(){ 
+loop(); 
 stroomgrafiek.clearRect(0, 0, 120, 60);
 var stroommultiplier = 60/(stroommax-stroommin);
 var watermultiplier = 60/(watermax-watermin);
@@ -422,23 +428,31 @@ soldaatgrafiek.fillText("$" + soldaatges[30],4, 50);
     
     
 function betaal(){
-    if(schuld > 0){
+    if(schuld > 1000){
         if(geld > 1000){
         schuld = schuld - 1000;
         geld = geld - 1000;
-        geldElement.innerHTML = "$" + geld;
-        schuldElement.innerHTML = "-$" + schuld;
         }
         else{
             schuld = schuld - geld;
             geld = 0;
-            geldElement.innerHTML = "$" + geld;
-            schuldElement.innerHTML = "-$" + schuld;
             }
+}
+    else{
+        if(geld > schuld){
+            geld = geld - schuld;
+            schuld = 0;
+        }   
+        else if(schuld > geld){
+            schuld=schuld-geld;
+            geld = 0;
+        }
+    }
         if(schuld == 0){
             document.getElementById('schuld').className = "";
         }
-}
+        geldElement.innerHTML = "$" + geld;
+        schuldElement.innerHTML = "-$" + schuld;
 }    
     
     
@@ -469,8 +483,9 @@ function verkoop(){
                     geldElement.innerHTML = "$" + geld;
                 }
                 stroomges[30] = stroomges[30]-1;
-                stroommax-1;
+                stroommax = stroommax-1;
                 draw();
+                loop();
                }
         stroomElement.innerHTML = stroomstock;
        }
@@ -495,7 +510,11 @@ function koop(){
         console.log(stroomstock);
         draw();
     }
-}   
+}  
+    
+    
+    
+    
 function update(){
     
 }
