@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Anarchocapitalism</title>
+	<link rel="stylesheet" href="css.css">
+</head>
+<body>
+	<div class="producten">
+		<div class="geld">
+			<h2 id="geld">$5000</h2>
+			<p class="" id="schuld">-$0</p>
+            <p id="rating">AAA</p>
+			<input type="button" value="Betaal $1000 af" onclick="betaal();">
+            <input type="button" value="Leen $1000" onclick="leen();">
+		</div>
+		<div class="product">
+			<img src="https://www.stickpng.com/assets/images/5c4cb57c426969027569a273.png">
+			<div class="stockpile">
+				<input type="button" value="-" onclick="select1=1; verkoop();">
+				<p id="stroomstock">0</p>
+				<input type="button" value="+" onclick="select1=1; koop();">
+			</div>
+			<canvas id="stroom" height="60" width="120"></canvas>
+		</div>
+		<div class="product">
+			<img src="http://www.transparentpng.com/thumb/water-drop/iiB5V1-water-drop-clipart-hd.png">
+			<div class="stockpile">
+				<input type="button" value="-">
+				<p>0</p>
+				<input type="button" value="+">
+			</div>
+			<canvas id="water" height="60" width="120"></canvas>
+		</div>
+        <div class="product">
+			<img src="https://png.pngtree.com/element_our/sm/20180227/sm_5a94f45a8eec7.png">
+			<div class="stockpile">
+				<input type="button" value="-">
+				<p>0</p>
+				<input type="button" value="+">
+			</div>
+			<canvas id="voedsel" height="60" width="120"></canvas>
+		</div>
+        <div class="product">
+			<img src="http://pluspng.com/img-png/png-hd-of-stick-figures-png-small-medium-large-598.png">
+			<div class="stockpile">
+				<input type="button" value="-">
+				<p>0</p>
+				<input type="button" value="+">
+			</div>
+			<canvas id="slaaf" height="60" width="120"></canvas>
+		</div>
+        <div class="product">
+			<img src="https://i.ya-webdesign.com/images/desert-eagle-csgo-png-8.png">
+			<div class="stockpile">
+				<input type="button" value="-">
+				<p>0</p>
+				<input type="button" value="+">
+			</div>
+			<canvas id="wapen" height="60" width="120"></canvas>
+		</div>
+         <div class="product">
+			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLm7HjstmQokR-fUwzfEsFbBqGUMXmLyj3HfB5RGx7ic2Xowz5&s">
+			<div class="stockpile">
+				<input type="button" value="-">
+				<p>0</p>
+				<input type="button" value="+">
+			</div>
+			<canvas id="soldaat" height="60" width="120"></canvas>
+		</div>
+       
+	</div>
+<script type="text/javascript">
+var select1 = 0;
+var grafiek1 = document.getElementById('stroom');
+var grafiek2 = document.getElementById('water');
+var grafiek3 = document.getElementById('voedsel');
+var grafiek4 = document.getElementById('slaaf');
+var grafiek5 = document.getElementById('wapen');
+var grafiek6 = document.getElementById('soldaat');
+var stroomgrafiek = grafiek1.getContext('2d');
+var watergrafiek = grafiek2.getContext('2d');
+var voedselgrafiek = grafiek3.getContext('2d');
+var slaafgrafiek = grafiek4.getContext('2d');
+var wapengrafiek = grafiek5.getContext('2d');
+var soldaatgrafiek = grafiek6.getContext('2d');
+//array voor waarden voor de grafiek
+var stroomges = [50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
+var waterges = [40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40]
+var voedselges = [70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70]
+var slaafges = [120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120]
+var wapenges = [75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75]
+var soldaatges = [220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220,220]
+var stroommin = 99999999999999;
+var stroommax = 0;
+var watermin = 9999999999999;
+var watermax = 0;
+var voedselmin = 999999999999;
+var voedselmax = 0;
+var slaafmin = 99999999999999;
+var slaafmax = 0;
+var wapenmin = 999999999999;
+var wapenmax = 0;
+var soldaatmin = 9999999999999;
+var soldaatmax = 0;
+var geld = 5000;
+var schuld = 0;
+var geldElement = document.getElementById("geld");
+var schuldElement = document.getElementById("schuld");
+var stroomElement = document.getElementById("stroomstock");
+var stroomstock = 0;
+draw();
+function draw(){ 
+
+for (i = 0; i < stroomges.length; i++){
+  if(stroomges[i] < stroommin){
+        stroommin = stroomges[i] -3;
+        console.log("stroom min =" + stroommin);
+    }
+    if(stroomges[i] > stroommax){
+        stroommax = stroomges[i] +3;
+        console.log("stroom max =" + stroommax)
+    }
+}   
+for (i = 0; i < waterges.length; i++){
+  if(waterges[i] < watermin){
+        watermin = waterges[i] -3;
+        console.log("water min =" + watermin);
+    }
+    if(waterges[i] > watermax){
+        watermax = waterges[i] +3;
+        console.log("water max =" + watermax)
+    }
+}    
+for (i = 0; i < voedselges.length; i++){
+  if(voedselges[i] < voedselmin){
+        voedselmin = voedselges[i] -3;
+        console.log("voedsel min =" + voedselmin);
+    }
+    if(voedselges[i] > voedselmax){
+        voedselmax = voedselges[i] +3;
+        console.log("voedsel max =" + voedselmax)
+    }
+}        
+for (i = 0; i < slaafges.length; i++){
+  if(slaafges[i] < slaafmin){
+        slaafmin = slaafges[i] -3;
+        console.log("slaaf min =" + slaafmin);
+    }
+    if(slaafges[i] > slaafmax){
+        slaafmax = slaafges[i] +3;
+        console.log("slaaf max =" + slaafmax)
+    }
+} 
+for (i = 0; i < wapenges.length; i++){
+  if(wapenges[i] < wapenmin){
+        wapenmin = wapenges[i] -3;
+        console.log("wapen min =" + wapenmin);
+    }
+    if(wapenges[i] > wapenmax){
+        wapenmax = wapenges[i] +3;
+        console.log("wapen max =" + wapenmax)
+    }
+}     
+for (i = 0; i < soldaatges.length; i++){
+  if(soldaatges[i] < soldaatmin){
+        soldaatmin = soldaatges[i] -3;
+        console.log("soldaat min =" + soldaatmin);
+    }
+    if(soldaatges[i] > soldaatmax){
+        soldaatmax = soldaatges[i] +3;
+        console.log("soldaat max =" + soldaatmax)
+    }
+}   
+    
+stroomgrafiek.clearRect(0, 0, 120, 60);
+var stroommultiplier = 60/(stroommax-stroommin);
+var watermultiplier = 60/(watermax-watermin);
+var voedselmultiplier = 60/(voedselmax-voedselmin);
+var slaafmultiplier = 60/(slaafmax-slaafmin);
+var wapenmultiplier = 60/(wapenmax-wapenmin);
+var soldaatmultiplier = 60/(soldaatmax-soldaatmin);
+stroomgrafiek.beginPath(); 
+stroomgrafiek.strokeStyle = "#477b8e";
+stroomgrafiek.moveTo(0 , 60 - (stroomges[0]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(4, 60 - (stroomges[1]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(8, 60 - (stroomges[2]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(12, 60 - (stroomges[3]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(16, 60 - (stroomges[4]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(20, 60 - (stroomges[5]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(24, 60 - (stroomges[6]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(28, 60 - (stroomges[7]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(32, 60 - (stroomges[8]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(36, 60 - (stroomges[9]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(40, 60 - (stroomges[10]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(44, 60 - (stroomges[11]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(48, 60 - (stroomges[12]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(52, 60 - (stroomges[13]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(56, 60 - (stroomges[14]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(60, 60 - (stroomges[15]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(64, 60 - (stroomges[16]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(68, 60 - (stroomges[17]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(72, 60 - (stroomges[18]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(76, 60 - (stroomges[19]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(80, 60 - (stroomges[20]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(84, 60 - (stroomges[21]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(88, 60 - (stroomges[22]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(92, 60 - (stroomges[23]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(96, 60 - (stroomges[24]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(100, 60 - (stroomges[25]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(104, 60 - (stroomges[26]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(108, 60 - (stroomges[27]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(112, 60 - (stroomges[28]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(116, 60 - (stroomges[29]-stroommin)*stroommultiplier);
+stroomgrafiek.lineTo(120, 60 - (stroomges[30]-stroommin)*stroommultiplier);
+stroomgrafiek.stroke(); 
+
+stroomgrafiek.fillStyle = "#FFFFFF";
+stroomgrafiek.font = "bolder 20px Arial";
+stroomgrafiek.textAlign = "left";
+stroomgrafiek.fillText("$" + stroomges[30],4, 50);
+    
+watergrafiek.beginPath(); 
+watergrafiek.strokeStyle = "#477b8e";
+watergrafiek.moveTo(0 , 60 - (waterges[0]-watermin)*watermultiplier);
+watergrafiek.lineTo(4, 60 - (waterges[1]-watermin)*watermultiplier);
+watergrafiek.lineTo(8, 60 - (waterges[2]-watermin)*watermultiplier);
+watergrafiek.lineTo(12, 60 - (waterges[3]-watermin)*watermultiplier);
+watergrafiek.lineTo(16, 60 - (waterges[4]-watermin)*watermultiplier);
+watergrafiek.lineTo(20, 60 - (waterges[5]-watermin)*watermultiplier);
+watergrafiek.lineTo(24, 60 - (waterges[6]-watermin)*watermultiplier);
+watergrafiek.lineTo(28, 60 - (waterges[7]-watermin)*watermultiplier);
+watergrafiek.lineTo(32, 60 - (waterges[8]-watermin)*watermultiplier);
+watergrafiek.lineTo(36, 60 - (waterges[9]-watermin)*watermultiplier);
+watergrafiek.lineTo(40, 60 - (waterges[10]-watermin)*watermultiplier);
+watergrafiek.lineTo(44, 60 - (waterges[11]-watermin)*watermultiplier);
+watergrafiek.lineTo(48, 60 - (waterges[12]-watermin)*watermultiplier);
+watergrafiek.lineTo(52, 60 - (waterges[13]-watermin)*watermultiplier);
+watergrafiek.lineTo(56, 60 - (waterges[14]-watermin)*watermultiplier);
+watergrafiek.lineTo(60, 60 - (waterges[15]-watermin)*watermultiplier);
+watergrafiek.lineTo(64, 60 - (waterges[16]-watermin)*watermultiplier);
+watergrafiek.lineTo(68, 60 - (waterges[17]-watermin)*watermultiplier);
+watergrafiek.lineTo(72, 60 - (waterges[18]-watermin)*watermultiplier);
+watergrafiek.lineTo(76, 60 - (waterges[19]-watermin)*watermultiplier);
+watergrafiek.lineTo(80, 60 - (waterges[20]-watermin)*watermultiplier);
+watergrafiek.lineTo(84, 60 - (waterges[21]-watermin)*watermultiplier);
+watergrafiek.lineTo(88, 60 - (waterges[22]-watermin)*watermultiplier);
+watergrafiek.lineTo(92, 60 - (waterges[23]-watermin)*watermultiplier);
+watergrafiek.lineTo(96, 60 - (waterges[24]-watermin)*watermultiplier);
+watergrafiek.lineTo(100, 60 - (waterges[25]-watermin)*watermultiplier);
+watergrafiek.lineTo(104, 60 - (waterges[26]-watermin)*watermultiplier);
+watergrafiek.lineTo(108, 60 - (waterges[27]-watermin)*watermultiplier);
+watergrafiek.lineTo(112, 60 - (waterges[28]-watermin)*watermultiplier);
+watergrafiek.lineTo(116, 60 - (waterges[29]-watermin)*watermultiplier);
+watergrafiek.lineTo(120, 60 - (waterges[30]-watermin)*watermultiplier);
+watergrafiek.stroke(); 
+watergrafiek.fillStyle = "#FFFFFF";
+watergrafiek.font = "bolder 20px Arial";
+watergrafiek.textAlign = "left";
+watergrafiek.fillText("$" + waterges[30],4, 50);
+
+voedselgrafiek.beginPath(); 
+voedselgrafiek.strokeStyle = "#477b8e";
+voedselgrafiek.moveTo(0 , 60 - (voedselges[0]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(4, 60 - (voedselges[1]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(8, 60 - (voedselges[2]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(12, 60 - (voedselges[3]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(16, 60 - (voedselges[4]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(20, 60 - (voedselges[5]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(24, 60 - (voedselges[6]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(28, 60 - (voedselges[7]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(32, 60 - (voedselges[8]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(36, 60 - (voedselges[9]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(40, 60 - (voedselges[10]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(44, 60 - (voedselges[11]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(48, 60 - (voedselges[12]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(52, 60 - (voedselges[13]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(56, 60 - (voedselges[14]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(60, 60 - (voedselges[15]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(64, 60 - (voedselges[16]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(68, 60 - (voedselges[17]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(72, 60 - (voedselges[18]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(76, 60 - (voedselges[19]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(80, 60 - (voedselges[20]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(84, 60 - (voedselges[21]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(88, 60 - (voedselges[22]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(92, 60 - (voedselges[23]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(96, 60 - (voedselges[24]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(100, 60 - (voedselges[25]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(104, 60 - (voedselges[26]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(108, 60 - (voedselges[27]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(112, 60 - (voedselges[28]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(116, 60 - (voedselges[29]-voedselmin)*voedselmultiplier);
+voedselgrafiek.lineTo(120, 60 - (voedselges[30]-voedselmin)*voedselmultiplier);
+voedselgrafiek.stroke(); 
+voedselgrafiek.fillStyle = "#FFFFFF";
+voedselgrafiek.font = "bolder 20px Arial";
+voedselgrafiek.textAlign = "left";
+voedselgrafiek.fillText("$" + voedselges[30],4, 50);  
+    
+    
+    
+    
+slaafgrafiek.beginPath(); 
+slaafgrafiek.strokeStyle = "#477b8e";
+slaafgrafiek.moveTo(0 , 60 - (slaafges[0]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(4, 60 - (slaafges[1]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(8, 60 - (slaafges[2]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(12, 60 - (slaafges[3]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(16, 60 - (slaafges[4]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(20, 60 - (slaafges[5]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(24, 60 - (slaafges[6]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(28, 60 - (slaafges[7]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(32, 60 - (slaafges[8]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(36, 60 - (slaafges[9]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(40, 60 - (slaafges[10]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(44, 60 - (slaafges[11]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(48, 60 - (slaafges[12]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(52, 60 - (slaafges[13]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(56, 60 - (slaafges[14]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(60, 60 - (slaafges[15]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(64, 60 - (slaafges[16]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(68, 60 - (slaafges[17]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(72, 60 - (slaafges[18]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(76, 60 - (slaafges[19]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(80, 60 - (slaafges[20]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(84, 60 - (slaafges[21]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(88, 60 - (slaafges[22]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(92, 60 - (slaafges[23]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(96, 60 - (slaafges[24]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(100, 60 - (slaafges[25]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(104, 60 - (slaafges[26]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(108, 60 - (slaafges[27]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(112, 60 - (slaafges[28]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(116, 60 - (slaafges[29]-slaafmin)*slaafmultiplier);
+slaafgrafiek.lineTo(120, 60 - (slaafges[30]-slaafmin)*slaafmultiplier);
+slaafgrafiek.stroke(); 
+slaafgrafiek.fillStyle = "#FFFFFF";
+slaafgrafiek.font = "bolder 20px Arial";
+slaafgrafiek.textAlign = "left";
+slaafgrafiek.fillText("$" + slaafges[30],4, 50);   
+    
+wapengrafiek.beginPath(); 
+wapengrafiek.strokeStyle = "#477b8e";
+wapengrafiek.moveTo(0 , 60 - (wapenges[0]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(4, 60 - (wapenges[1]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(8, 60 - (wapenges[2]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(12, 60 - (wapenges[3]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(16, 60 - (wapenges[4]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(20, 60 - (wapenges[5]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(24, 60 - (wapenges[6]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(28, 60 - (wapenges[7]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(32, 60 - (wapenges[8]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(36, 60 - (wapenges[9]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(40, 60 - (wapenges[10]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(44, 60 - (wapenges[11]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(48, 60 - (wapenges[12]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(52, 60 - (wapenges[13]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(56, 60 - (wapenges[14]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(60, 60 - (wapenges[15]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(64, 60 - (wapenges[16]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(68, 60 - (wapenges[17]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(72, 60 - (wapenges[18]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(76, 60 - (wapenges[19]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(80, 60 - (wapenges[20]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(84, 60 - (wapenges[21]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(88, 60 - (wapenges[22]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(92, 60 - (wapenges[23]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(96, 60 - (wapenges[24]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(100, 60 - (wapenges[25]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(104, 60 - (wapenges[26]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(108, 60 - (wapenges[27]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(112, 60 - (wapenges[28]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(116, 60 - (wapenges[29]-wapenmin)*wapenmultiplier);
+wapengrafiek.lineTo(120, 60 - (wapenges[30]-wapenmin)*wapenmultiplier);
+wapengrafiek.stroke(); 
+wapengrafiek.fillStyle = "#FFFFFF";
+wapengrafiek.font = "bolder 20px Arial";
+wapengrafiek.textAlign = "left";
+wapengrafiek.fillText("$" + wapenges[30],4, 50);    
+    
+soldaatgrafiek.beginPath(); 
+soldaatgrafiek.strokeStyle = "#477b8e";
+soldaatgrafiek.moveTo(0 , 60 - (soldaatges[0]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(4, 60 - (soldaatges[1]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(8, 60 - (soldaatges[2]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(12, 60 - (soldaatges[3]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(16, 60 - (soldaatges[4]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(20, 60 - (soldaatges[5]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(24, 60 - (soldaatges[6]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(28, 60 - (soldaatges[7]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(32, 60 - (soldaatges[8]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(36, 60 - (soldaatges[9]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(40, 60 - (soldaatges[10]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(44, 60 - (soldaatges[11]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(48, 60 - (soldaatges[12]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(52, 60 - (soldaatges[13]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(56, 60 - (soldaatges[14]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(60, 60 - (soldaatges[15]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(64, 60 - (soldaatges[16]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(68, 60 - (soldaatges[17]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(72, 60 - (soldaatges[18]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(76, 60 - (soldaatges[19]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(80, 60 - (soldaatges[20]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(84, 60 - (soldaatges[21]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(88, 60 - (soldaatges[22]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(92, 60 - (soldaatges[23]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(96, 60 - (soldaatges[24]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(100, 60 - (soldaatges[25]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(104, 60 - (soldaatges[26]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(108, 60 - (soldaatges[27]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(112, 60 - (soldaatges[28]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(116, 60 - (soldaatges[29]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.lineTo(120, 60 - (soldaatges[30]-soldaatmin)*soldaatmultiplier);
+soldaatgrafiek.stroke(); 
+soldaatgrafiek.fillStyle = "#FFFFFF";
+soldaatgrafiek.font = "bolder 20px Arial";
+soldaatgrafiek.textAlign = "left";
+soldaatgrafiek.fillText("$" + soldaatges[30],4, 50);
+}
+
+    
+    
+    
+function betaal(){
+    if(schuld > 0){
+        if(geld > 1000){
+        schuld = schuld - 1000;
+        geld = geld - 1000;
+        geldElement.innerHTML = "$" + geld;
+        schuldElement.innerHTML = "-$" + schuld;
+        }
+        else{
+            schuld = schuld - geld;
+            geld = 0;
+            geldElement.innerHTML = "$" + geld;
+            schuldElement.innerHTML = "-$" + schuld;
+            }
+        if(schuld == 0){
+            document.getElementById('schuld').className = "";
+        }
+}
+}    
+    
+    
+    
+    
+function leen(){
+    schuld = schuld + 1000;
+    geld = geld + 1000;
+    geldElement.innerHTML = "$" + geld;
+    schuldElement.innerHTML = "-$" + schuld;
+    document.getElementById('schuld').className = "red";
+    
+}
+       
+function verkoop(){
+    console.log(stroomstock);
+    if(select1 == 1){
+            if(stroomstock > 0){
+                if(stroomstock > 10){
+                    stroomstock = stroomstock-10;
+                    geld = geld + stroomges[30]*10;
+                    geldElement.innerHTML = "$" + geld;
+                    console.log(stroomstock);
+                   }
+                else{
+                    geld = geld + stroomges[30]*stroomstock;
+                    stroomstock = 0;
+                    geldElement.innerHTML = "$" + geld;
+                }
+                stroomges[30] = stroomges[30]-1;
+                stroommax-1;
+                draw();
+               }
+        stroomElement.innerHTML = stroomstock;
+       }
+}  
+    
+function koop(){
+    if(select1 == 1){
+        if(geld > stroomges[30]*10+10){
+            geld = geld - ((stroomges[30]*10+10));
+            geldElement.innerHTML = "$"+geld;
+        }
+        else{
+            schuld = schuld+((stroomges[30]*10)+10);
+            schuldElement.innerHTML = "-$" + schuld;
+            document.getElementById('schuld').className = "red";
+            
+        }
+        stroomstock = stroomstock + 10;
+        stroomElement.innerHTML = stroomstock;
+        stroomges[30] = stroomges[30] + 1;
+        stroommax = stroommax+1;
+        console.log(stroomstock);
+        draw();
+    }
+}   
+function update(){
+    
+}
+    
+
+</script>
+</body>
+</html>
