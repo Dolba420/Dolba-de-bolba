@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <h1>Geschiedenis kenmerkende aspecten</h1>
+        <p>Door: Dolf</p>
+<img width="40%" src="" id="image">
+<br>
+<input id="tekst" type="text" placeholder="antwoord">
+<input type="button" value="Moi" onclick="checkantwoord(document.getElementById('tekst').value);">
+<div style="display: flex;">
+<p>Willekeurige volgorde</p>
+<input type="checkbox" checked>
+
+</div>
+
+
+</body>
+<script>
+var willekeurig = true;
+var aantal_aspecten = 49;
+var huidig_aspect = 1;
+var image = document.getElementById("image");
+var antwoorden = ["", "De levenswijze van jagers-verzamelaars","Het ontstaan van de landbouw en landbouwsamenleving"];
+
+
+function vraag(){
+    if(willekeurig == true){
+    var radom = (Math.floor(Math.random() * 2)+1);
+        image.src = "img/" + radom + ".jpg";
+        huidig_aspect = radom;
+    }
+}
+vraag();
+
+function checkantwoord(ans){
+    if(similarity(ans,antwoorden[huidig_aspect]) > 0.8){
+        alert("Top neef");
+        vraag();
+    }
+    else{
+        alert("OI");
+    }
+}
+
+
+function similarity(s1, s2) {
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}
+
+
+
+
+</script>
+</html>
