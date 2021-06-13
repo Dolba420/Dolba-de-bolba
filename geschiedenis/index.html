@@ -1,36 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+html{
+    margin-top: 0;
+    top: 0;
+}
+body{
+    margin: 0;
+    top: 0;
+    text-align: center;
+}
+header{
+    margin: 0;
+    top: 0;
+    text-align: center;
+    background-color: #2596be;
+}
+img{
+    margin-top: 25px;
+    width: 60%;
+    max-height: 600px;
+    margin-left: 0%;
+}
+h1{
+    margin: 0;
+}
+p{
+    margin: 0;
+}
+footer{
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   height: 200px;
+   width: 100%;
+   background-color: #2596be;
+   color: white;
+   text-align: right;
+}
+.next{
+    margin-top: 20px;
+    margin-right: 20px;
+    border-radius: 3px;
+    background: #94e414;
+    width: 75px;
+    height: 40px;  
+}
+
+</style>
+
+
+
 
 </head>
 <body>
+    <header>
     <h1>Geschiedenis kenmerkende aspecten</h1>
         <p>Door: Dolf</p>
-<img width="40%" src="" id="image">
+</header>
+<img src="" id="image">
 <br>
-<input id="tekst" type="text" placeholder="antwoord">
-<input type="button" value="Moi" onclick="checkantwoord(document.getElementById('tekst').value);">
+<textarea id="tekst" placeholder="antwoord"></textarea>
+
 <div style="display: flex;">
-<p>Willekeurige volgorde</p>
-<input type="checkbox" checked>
+<!--<p>Willekeurige volgorde</p>
+<input type="checkbox" checked>-->
 
 </div>
+<footer>
 
+<input class="next" type="button" id="klik" value="Moi" onclick="checkantwoord(document.getElementById('tekst').value);">
+</footer>
 
 </body>
 <script>
-var willekeurig = true;
+var willekeurig = false;
 var aantal_aspecten = 49;
-var huidig_aspect = 1;
+var huidig_aspect = 0;
 var image = document.getElementById("image");
-var antwoorden = ["", "De levenswijze van jagers-verzamelaars","Het ontstaan van de landbouw en landbouwsamenleving"];
+var antwoorden = ["", 
+"De levenswijze van jagers en verzamelaars"
+,"Het ontstaan van landbouw en landbouwsamenlevingen"
+,"Het ontstaan van de eerste stedelijke gemeenschappen"
+,"De ontwikkeling van het wetenschappelijk denken en het denken over burgerschap en politiek in de Griekse stadstaat"
+,"De groei van het Romeinse Imperium waardoor de Grieks-Romeinse cultuur zich in Europa verspreidde"
+,"De klassieke vormentaal van de Grieks-Romeinse cultuur"
+,"De confrontatie tussen de Grieks-Romeinse cultuur en de Germaanse cultuur in Noordwest-Europa"
+,"De ontwikkeling van het Jodendom en christendom als de eerste monotheïstische godsdiensten"
+,"Het ontstaan en de verspreiding van de Islam"
+,"De vrijwel volledige vervanging in West-Europa van de agrarisch-urbane cultuur door een zelfvoorzienende agrarische cultuur, georganiseerd via hofstelsel en horigheid"
+,"Het ontstaan van feodale verhoudingen in het bestuur"
+,"De verspreiding van het christendom in geheel Europa"
+,"De opkomst van handel en ambacht die de basis legde voor het herleven van een agrarisch-urbane samenleving"
+,"De opkomst van de stedelijke burgerij en de toenemende zelfstandigheid van steden"
+,"Het begin van staatsvorming en centralisatie"
+,"Het conflict in de christelijke wereld over de vraag of de wereldlijke dan wel de geestelijke macht het primaat behoorde te hebben"
+,"De expansie van de christelijke wereld naar buiten toe, onder andere in de vorm van kruistochten"
+,"Het begin van Europese overzeese expansie"
+,"Het veranderende mens- en wereldbeeld van de Renaissance en het begin van een nieuwe wetenschappelijke belangstelling"
+,"De hernieuwde oriëntatie op het erfgoed van de klassieke oudheid"
+,"De protestantse reformatie die splitsing van de christelijke kerk in West-Europa tot gevolg had"
+,"Het conflict in de Nederlanden dat resulteerde in de stichting van een Nederlandse staat"
+,"Het streven van vorsten naar absolute macht"
+,"De bijzondere plaats in staatkundig opzicht en de bloei in economisch en cultureel opzicht van de Nederlandse Republiek"
+,"Wereldwijde handelscontacten, handelskapitalisme en het begin van een wereldeconomie"
+,"De wetenschappelijke revolutie"
+,"Rationeel optimisme en ‘’verlicht denken’’ dat werd toegepast op alle terreinen van de samenleving: godsdienst, politiek, economie en sociale verhoudingen"
+,"Voortbestaan van het ancien régime met pogingen om het vorstelijk bestuur op eigentijdse verlichte wijze vorm te geven (verlicht absolutisme)"
+,"Uitbouw van de Europese overheersing, met name in de vorm van plantagekoloniën en de daarmee verbonden trans-Atlantische slavenhandel, en de opkomst van het abolitionisme"
+,"De democratische revoluties in westerse landen met als gevolg discussies over grondwetten, grondrechten en staatsburgerschap"
+,"De industriële revolutie die in de westerse wereld de basis legde voor een industriële samenleving."
+,"De moderne vorm van imperialisme die verband hield met de industrialisatie"
+,"Opkomst van de politiek-maatschappelijke stromingen: nationalisme, liberalisme, socialisme, confessionalisme, feminisme."
+,"Voortschrijdende democratisering, met deelname van steeds meer mannen en vrouwen aan het politiek proces."
+,"De opkomst van emancipatiebewegingen"
+,"Discussies over de sociale kwestie"
+,"Het voeren van twee wereldoorlogen"
+,"De crisis van het wereldkapitalisme"
+,"Het in praktijk brengen van de totalitaire ideologieën: communisme en nationaalsocialisme"
+,"De rol van moderne propaganda- en communicatiemiddelen en vormen van massaorganisatie"
+,"Vormen van verzet tegen het West-Europese imperialisme"
+,"Verwoestingen op niet eerder vertoonde schaal door massavernietigingswapens en de betrokkenheid van de burgerbevolking bij oorlogvoering"
+,"Racisme en discriminatie die leidden tot genocide, in het bijzonder op de joden"
+,"De Duitse bezetting van Nederland"
+,"De dekolonisatie maakte een eind aan de westerse hegemonie in de wereld"
+,"De verdeling van de wereld in twee ideologische blokken in de greep van een wapenwedloop en de daaruit voortvloeiende dreiging van een atoomoorlog"
+,"De toenemende westerse welvaart die vanaf de jaren '60 van de 20e eeuw aanleiding gaf tot ingrijpende sociaal-culturele veranderingsprocessen"
+,"De eenwording van Europa"
+,"De ontwikkeling van pluriforme en multiculturele samenlevingen"
+];
 
 
 function vraag(){
     if(willekeurig == true){
-    var radom = (Math.floor(Math.random() * 2)+1);
+    var radom = (Math.floor(Math.random() * 49)+1);
         image.src = "img/" + radom + ".jpg";
         huidig_aspect = radom;
+    }
+    else{
+        huidig_aspect++;
+        image.src = "img/" + huidig_aspect + ".jpg";
     }
 }
 vraag();
@@ -38,12 +148,33 @@ vraag();
 function checkantwoord(ans){
     if(similarity(ans,antwoorden[huidig_aspect]) > 0.8){
         alert("Top neef");
-        vraag();
+        
+
     }
     else{
-        alert("OI");
+        alert("Het juiste aspect was " + antwoorden[huidig_aspect]);
     }
+    document.getElementById('tekst').value = "";
+    vraag();
 }
+
+
+
+
+var input = document.getElementById("tekst");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("klik").click();
+  }
+});
+
+
+
+
+
+
+
 
 
 function similarity(s1, s2) {
